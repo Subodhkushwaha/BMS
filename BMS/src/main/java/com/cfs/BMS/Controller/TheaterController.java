@@ -1,14 +1,12 @@
-package com.cfs.BMS.controller;
+package com.cfs.BMS.Controller;
 
 
+import com.cfs.BMS.dto.TheaterRequest;
 import com.cfs.BMS.entity.Theater;
 import com.cfs.BMS.service.TheaterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +35,23 @@ public class TheaterController {
     public ResponseEntity<List<Theater>> getTheaterByCity(@PathVariable Long cityId)
     {
         return ResponseEntity.ok(theaterService.getTheaterByCity(cityId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Theater> addTheater(@RequestBody TheaterRequest request) {
+        return ResponseEntity.ok(theaterService.addTheater(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Theater> updateTheater(@PathVariable Long id,
+                                                 @RequestBody TheaterRequest request) {
+        return ResponseEntity.ok(theaterService.updateTheater(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTheater(@PathVariable Long id) {
+        theaterService.deleteTheater(id);
+        return ResponseEntity.ok("Theater deleted successfully");
     }
 
 

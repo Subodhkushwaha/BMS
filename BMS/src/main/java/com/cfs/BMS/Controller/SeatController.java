@@ -1,14 +1,12 @@
 package com.cfs.BMS.controller;
 
 
+import com.cfs.BMS.dto.SeatRequest;
 import com.cfs.BMS.entity.Seat;
 import com.cfs.BMS.service.SeatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,4 +31,21 @@ public class SeatController {
 
 
 
+
+    @PostMapping
+    public ResponseEntity<Seat> addSeat(@RequestBody SeatRequest request) {
+        return ResponseEntity.ok(seatService.addSeat(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Seat> updateSeat(@PathVariable Long id,
+                                           @RequestBody SeatRequest request) {
+        return ResponseEntity.ok(seatService.updateSeat(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteSeat(@PathVariable Long id) {
+        seatService.deleteSeat(id);
+        return ResponseEntity.ok("Seat deleted successfully");
+    }
 }

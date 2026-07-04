@@ -1,6 +1,7 @@
 package com.cfs.BMS.controller;
 
 
+import com.cfs.BMS.dto.ShowRequest;
 import com.cfs.BMS.entity.Show;
 import com.cfs.BMS.entity.Theater;
 import com.cfs.BMS.service.ShowService;
@@ -41,5 +42,22 @@ public class ShowController {
     getShowByMovieAndDate(@PathVariable Long movieId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date)
     {
         return ResponseEntity.ok(showService.getShowByMovieAndDate(movieId,date));
+    }
+
+
+    @PostMapping
+    public ResponseEntity<Show> addShow(@RequestBody ShowRequest request) {
+        return ResponseEntity.ok(showService.addShow(request));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Show> updateShow(@PathVariable Long id,
+                                           @RequestBody ShowRequest request) {
+        return ResponseEntity.ok(showService.updateShow(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteShow(@PathVariable Long id) {
+        showService.deleteShow(id);
+        return ResponseEntity.ok("Show deleted successfully");
     }
 }

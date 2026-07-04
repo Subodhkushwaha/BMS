@@ -1,6 +1,7 @@
 package com.cfs.BMS.service;
 
 
+import com.cfs.BMS.dto.SeatRequest;
 import com.cfs.BMS.entity.Seat;
 import com.cfs.BMS.entity.Theater;
 import com.cfs.BMS.repository.SeatRepository;
@@ -28,5 +29,41 @@ public class SeatService {
         return seatRepository.findById(id)
                 .orElseThrow(()->new RuntimeException("Seat not found with id: "+id));
 
+    }
+
+    public Seat addSeat(SeatRequest request) {
+
+        com.cfs.BMS.entity.Screen screen = screenService.getScreenById(request.getScreenId());
+
+        Seat seat = Seat.builder()
+                .seatNumber(request.getSeatNumber())
+                .row(request.getRow())
+                .col(request.getCol())
+                .seatType(request.getSeatType())
+                .screen(screen)
+                .build();
+
+        return seatRepository.save(seat);
+    }
+
+    public Seat updateSeat(Long id, SeatRequest request) {
+
+        Seat seat = getSeatById(id);
+        com.cfs.BMS.entity.Screen screen = screenService.getScreenById(request.getScreenId());
+
+        seat.setSeatNumber(request.getSeatNumber());
+        seat.setRow(request.getRow());
+        seat.setCol(request.getCol());
+        seat.setSeatType(request.getSeatType());
+        seat.setScreen(screen);
+
+        return seatRepository.save(seat);
+    }
+
+    public void deleteSeat(Long id) {
+
+        Seat seat = getSeatById(id);
+
+        seatRepository.delete(seat);
     }
 }

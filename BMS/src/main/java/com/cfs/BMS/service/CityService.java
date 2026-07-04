@@ -13,7 +13,7 @@ public class CityService {
 
     private final CityRepository cityRepository;
 
-    private City addCity(City city)
+    public City addCity(City city)
     {
         return cityRepository.save(city);
     }

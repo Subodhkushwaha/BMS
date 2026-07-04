@@ -1,15 +1,13 @@
 package com.cfs.BMS.controller;
 
 
+import com.cfs.BMS.dto.ScreenRequest;
 import com.cfs.BMS.entity.Screen;
 import com.cfs.BMS.entity.Seat;
 import com.cfs.BMS.service.ScreenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,5 +35,22 @@ public class ScreenController {
     public ResponseEntity<List<Screen>>  getScreenByTheaterId(@PathVariable Long theaterId)
     {
         return ResponseEntity.ok(screenService.getScreenByTheater(theaterId));
+    }
+
+    @PostMapping
+    public ResponseEntity<Screen> addScreen(@RequestBody ScreenRequest request) {
+        return ResponseEntity.ok(screenService.addScreen(request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Screen> updateScreen(@PathVariable Long id,
+                                               @RequestBody ScreenRequest request) {
+        return ResponseEntity.ok(screenService.updateScreen(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteScreen(@PathVariable Long id) {
+        screenService.deleteScreen(id);
+        return ResponseEntity.ok("Screen deleted successfully");
     }
 }

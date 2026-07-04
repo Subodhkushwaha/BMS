@@ -5,10 +5,12 @@ import com.cfs.BMS.dto.ShowRequest;
 import com.cfs.BMS.entity.Movie;
 import com.cfs.BMS.entity.Screen;
 import com.cfs.BMS.entity.Show;
-import com.cfs.BMS.entity.Theater;
 import com.cfs.BMS.repository.ShowRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -59,6 +61,24 @@ public class ShowService {
         return showRepository.findByMovieIdAndShowDate(movieId,date);
     }
 
-    //getShowByScreen
+    public Show updateShow(Long id, ShowRequest request) {
 
+        Show show = getShowById(id);
+
+        Movie movie = movieService.getMovieById(request.getMovieId());
+        Screen screen = screenService.getScreenById(request.getScreenId());
+
+        show.setMovie(movie);
+        show.setScreen(screen);
+        show.setShowDate(request.getShowDate());
+        show.setStartTime(request.getStartTime());
+        show.setEndTime(request.getEndTime());
+        show.setTicketPrice(request.getTicketPrice());
+
+        return showRepository.save(show);
+    }
+
+    public void deleteShow(Long id) {
+        showRepository.deleteById(id);
+    }
 }
